@@ -59,8 +59,12 @@ public class MyLocationActivity extends FragmentActivity {
             alertDialog.show();
         }
 
-        bindService(new Intent(this, LocationDemand.class), mConnection,
-                Context.BIND_AUTO_CREATE);
+
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+            Intent intent = new Intent(this, LocationDemand.class);
+            startService(intent);
+        }
 
 
         Button showLoc = (Button) findViewById(R.id.locbutton);
@@ -102,14 +106,10 @@ public class MyLocationActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-
-            Intent intent = new Intent(this, LocationDemand.class);
-            startService(intent);
-        }
 
 
+        bindService(new Intent(this, LocationDemand.class), mConnection,
+                Context.BIND_AUTO_CREATE);
     }
 
     @Override
