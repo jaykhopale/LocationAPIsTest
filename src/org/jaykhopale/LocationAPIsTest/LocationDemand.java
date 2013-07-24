@@ -32,7 +32,9 @@ public class LocationDemand extends Service implements LocationListener,
 
         super.onStartCommand(intent, flags, startId);
 
-        customClient.connect();
+        if (customClient != null && !customClient.isConnected()) {
+            customClient.connect();
+        }
 
 
         return START_STICKY;
